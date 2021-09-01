@@ -6,25 +6,17 @@ public class Location {
     private double y;
 
     public Location(String[] xy) {
-        this.x = Double.parseDouble(xy[0]);
-        this.y = Double.parseDouble(xy[1]);
+        this(new double[]{Double.parseDouble(xy[0]), Double.parseDouble(xy[1])});
     }
 
     public Location(double[] xy) {
-        this.x = xy[0];
-        this.y = xy[1];
+        //Rounding to 2 decimal
+        this.x = (double) Math.round(xy[0]*10)/10;
+        this.y = (double) Math.round(xy[1]*10)/10;
     }
 
     public double getX() {
         return x;
-    }
-
-    public double obtainNegatedX() {
-        return -x;
-    }
-
-    public double obtainNegatedY() {
-        return -y;
     }
 
     public void setX(double x) {
