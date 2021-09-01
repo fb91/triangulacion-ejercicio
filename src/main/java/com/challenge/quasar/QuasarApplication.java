@@ -10,6 +10,10 @@ public class QuasarApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(QuasarApplication.class, args);
+		//TODO:
+		// Add more unit testing.
+		// Create exception classes for location and messaging errors.
+		// Think about the caching time and how topSecretSplit will be used.
 	}
 
 }
