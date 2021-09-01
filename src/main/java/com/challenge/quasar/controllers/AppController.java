@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -37,7 +38,7 @@ public class AppController {
     }
 
     @PostMapping(path = "/topsecret", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity topSecret(@RequestBody SatelliteList satelliteList) {
+    public ResponseEntity topSecret(@RequestBody SatelliteList satelliteList) throws ResponseStatusException {
         try {
             if (satelliteList.getSatellites().size() < 3) {
                 throw new Exception("Se precisa al menos 3 satélites para determinar con precisión la ubicación");
@@ -52,12 +53,15 @@ public class AppController {
     }
 
     @PostMapping(path = "/topsecret_split/{satellite_name}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity topSecretSplit(@PathVariable String satellite_name, @RequestBody Satellite satelliteInfo) {
+    public ResponseEntity topSecretSplit(@PathVariable String satellite_name, @RequestBody Satellite satelliteInfo) throws ResponseStatusException {
         try {
+            String[] satellitesNames = this.environment.getProperty("satellites.names").split(",");
+            if (Arrays.stream(satellitesNames).noneMatch(elt -> elt.equals(satellite_name))) {
+                throw new Exception("Nombre de satelite no configurado");
+            }
+            List<Satellite> cachedSatelliteList = new ArrayList<Satellite>();
             satelliteInfo.setName(satellite_name);
             this.cache.cacheManager().getCache("satellitesCache").put(satelliteInfo.getName(), satelliteInfo);
-            String[] satellitesNames = this.environment.getProperty("satellites.names").split(",");
-            List<Satellite> cachedSatelliteList = new ArrayList<Satellite>();
             for (String satelliteName : satellitesNames) {
                 Cache.ValueWrapper cache = this.cache.cacheManager().getCache("satellitesCache").get(satelliteName);
                 if (cache != null) {
