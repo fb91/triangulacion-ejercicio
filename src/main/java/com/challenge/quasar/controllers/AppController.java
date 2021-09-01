@@ -27,12 +27,15 @@ public class AppController {
     @PostMapping(path = "/topsecret", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity topSecret(@RequestBody SatelliteList satelliteList) {
         try {
+            if (satelliteList.getSatellites().size() < 3) {
+                throw new Exception("Se precisa al menos 3 satélites para determinar con precisión la ubicación");
+            }
             Location spaceshipLocation = locationService.getLocation(satelliteList.getSatellites());
             String spaceshipMessage = messageService.decodeMessage(satelliteList.obtainMessages());
             Spaceship spaceship = new Spaceship(spaceshipLocation, spaceshipMessage);
             return ResponseEntity.status(HttpStatus.OK).body(spaceship);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, e.getMessage(), e);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 }
