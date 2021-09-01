@@ -19,7 +19,7 @@ public class LocationService {
     @Autowired
     private Environment environment;
 
-    public Location getLocation(List<Satellite> satellites) {
+    public Location getLocation(List<Satellite> satellites) throws Exception {
         int satellitesQuantity = satellites.size();
         double[][] positions = new double[satellitesQuantity][];
         double[] distances = new double[satellitesQuantity];
@@ -28,14 +28,16 @@ public class LocationService {
         return new Location(result);
     }
 
-    private void _fillSatellitesPositionsAndDistances(List<Satellite> satellites, double[][] positions, double[] distances) {
+    private void _fillSatellitesPositionsAndDistances(List<Satellite> satellites, double[][] positions, double[] distances) throws Exception {
         int i = 0;
         for (Satellite s: satellites) {
-            String[] locationProperty = environment.getProperty("satellites."+s.getName()+".location").split(",");
-            Location location = null;
-            if (locationProperty != null) {
-                location = new Location(locationProperty);
+            String satelliteLocation = environment.getProperty("satellites."+s.getName()+".location");
+            if (satelliteLocation == null) {
+                throw new Exception("Nombre de satelite no configurado");
             }
+            String[] locationProperty = satelliteLocation.split(",");
+            Location location = null;
+            location = new Location(locationProperty);
             double[] satellitePosition = location.asArray();
             positions[i] = satellitePosition;
             distances[i] = s.getDistance();
