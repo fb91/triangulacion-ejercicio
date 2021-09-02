@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,16 +51,23 @@ public class AppController {
         }
     }
 
-    @PostMapping(path = "/topsecret_split/{satellite_name}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity topSecretSplit(@PathVariable String satellite_name, @RequestBody Satellite satelliteInfo) throws ResponseStatusException {
+    @GetMapping("topsecret_split/{satellite_name}")
+    public ResponseEntity topSecretSplit(
+            @PathVariable String satellite_name,
+            @RequestParam(value="distance") String distanceParam,
+            @RequestParam(value="message") String messageParam
+    ) throws ResponseStatusException {
         try {
+            double distance = Double.parseDouble(distanceParam);
+            String[] message = messageParam.split(";");
+            Satellite satellite = new Satellite(satellite_name, distance, message);
             String[] satellitesNames = this.environment.getProperty("satellites.names").split(",");
             if (Arrays.stream(satellitesNames).noneMatch(elt -> elt.equals(satellite_name))) {
                 throw new Exception("Nombre de satelite no configurado");
             }
             List<Satellite> cachedSatelliteList = new ArrayList<Satellite>();
-            satelliteInfo.setName(satellite_name);
-            this.cache.cacheManager().getCache("satellitesCache").put(satelliteInfo.getName(), satelliteInfo);
+            satellite.setName(satellite_name);
+            this.cache.cacheManager().getCache("satellitesCache").put(satellite.getName(), satellite);
             for (String satelliteName : satellitesNames) {
                 Cache.ValueWrapper cache = this.cache.cacheManager().getCache("satellitesCache").get(satelliteName);
                 if (cache != null) {
