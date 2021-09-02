@@ -1,10 +1,10 @@
-#Challenge: Operación Fuego de Quasar
+# Challenge: Operación Fuego de Quasar
 Documento con el enunciado del desafío: [enunciado_desafio.pdf](https://github.com/fb91/triangulacion-ejercicio/tree/master/doc/enunciado_desafio.pdf)
 
-##Ejecución
+## Ejecución
 Según se solicita en el enunciado, el proyecto exponen 2 endpoints que se detallan a continuación:
 
-###Endpoint: topsecret
+### Endpoint: topsecret
 Este endpoint recibe datos de 3 satélites conocidos y retorna: la **ubicación** de la nave utilizando un algoritmo de triangulación y el **mensaje** decodificado
 * Request URL: https://challengemercadolibre.rj.r.appspot.com/topsecret
 * Método: POST
@@ -39,7 +39,7 @@ Este endpoint recibe datos de 3 satélites conocidos y retorna: la **ubicación*
 }
 ```
 
-###Endpoint: topsecret_split
+### Endpoint: topsecret_split
 Este endpoint recibe el dato de un satelite. Si previamente ha recolectado datos suficientes como para triangular la posición y decodificar el mensaje, entonces lo retorna.
 * Request URL: https://challengemercadolibre.rj.r.appspot.com/topsecret_split/{nombre_del_satelite}
 * Método: GET
