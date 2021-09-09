@@ -6,7 +6,7 @@ Según se solicita en el enunciado, el proyecto exponen 2 endpoints que se detal
 
 ### Endpoint: topsecret
 Este endpoint recibe datos de 3 satélites conocidos y retorna: la **ubicación** de la nave utilizando un algoritmo de triangulación y el **mensaje** decodificado
-* Request URL: https://challengemercadolibre.rj.r.appspot.com/topsecret
+* Request URL *(servicio actualmente inactivo)*: https://challengemercadolibre.rj.r.appspot.com/topsecret
 * Método: POST
 * Ejemplo body del request:
 ```json
@@ -41,9 +41,9 @@ Este endpoint recibe datos de 3 satélites conocidos y retorna: la **ubicación*
 
 ### Endpoint: topsecret_split
 Este endpoint recibe el dato de un satelite. Si previamente ha recolectado datos suficientes como para triangular la posición y decodificar el mensaje, entonces lo retorna.
-* Request URL: https://challengemercadolibre.rj.r.appspot.com/topsecret_split/{nombre_del_satelite}
+* Request URL *(servicio actualmente inactivo)*: https://challengemercadolibre.rj.r.appspot.com/topsecret_split/{nombre_del_satelite}
 * Método: GET
-* Ejemplos de URLs:
+* Ejemplos de URLs *(servicio actualmente inactivo)*:
 * [https://challengemercadolibre.rj.r.appspot.com/topsecret_split/kenobi?distance=100.0&message=este;;;mensaje;](https://challengemercadolibre.rj.r.appspot.com/topsecret_split/kenobi?distance=100.0&message=este;;;mensaje;)
 * [https://challengemercadolibre.rj.r.appspot.com/topsecret_split/skywalker?distance=115.5&message=;es;;;secreto](https://challengemercadolibre.rj.r.appspot.com/topsecret_split/skywalker?distance=115.5&message=;es;;;secreto)
 * [https://challengemercadolibre.rj.r.appspot.com/topsecret_split/sato?distance=142.7&message=este;;un;;](https://challengemercadolibre.rj.r.appspot.com/topsecret_split/sato?distance=142.7&message=este;;un;;)
